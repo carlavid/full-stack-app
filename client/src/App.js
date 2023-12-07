@@ -1,41 +1,27 @@
-import React, { useState, useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+
+import Header from "./components/Header";
+import Courses from "./components/Courses";
+import CreateCourse from "./components/CreateCourse";
+import UpdateCourse from "./components/UpdateCourse";
+import CourseDetail from "./components/CourseDetail";
+import UserSignUp from "./components/UserSignUp";
+import UserSignIn from "./components/UserSignIn";
+import UserSignOut from "./components/UserSignOut";
 
 function App() {
-  const [courses, setCourses] = useState([]);
-  const apiUrl = "http://localhost:5000/api/courses/";
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      setCourses(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const generateCourseList = () => {
-    return (
-      <div id="courseListContainer">
-        <div id="courseList">
-          <ul>
-            {courses.map((course) => (
-              <li key={course.id}>{course.title}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <div className="App">
-      <h1>Course List</h1>
-      {generateCourseList()}
+    <div id="root">
+      <Header />
+      <Routes>
+        <Route path="/" element={<Courses />} />
+        <Route path="/courses/create" element={<CreateCourse />} />
+        <Route path="/courses/:id/update" element={<UpdateCourse />} />
+        <Route path="/courses/:id" element={<CourseDetail />} />
+        <Route path="/signin" element={<UserSignIn />} />
+        <Route path="/signup" element={<UserSignUp />} />
+        <Route path="/signout" element={<UserSignOut />} />
+      </Routes>
     </div>
   );
 }
