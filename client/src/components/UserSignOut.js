@@ -1,4 +1,13 @@
-/**
- * Signs out the authenticated user and redirects the 
- * user to the default route (i.e. the list of courses).
- */
+import { useContext, useEffect } from "react";
+import UserContext from "../context/UserContext";
+import { Navigate } from "react-router-dom";
+
+const UserSignOut = () => {
+  const { actions } = useContext(UserContext);
+
+  useEffect(() => actions.signOut);
+
+  return <Navigate to="/" replace />;
+};
+
+export default UserSignOut;
