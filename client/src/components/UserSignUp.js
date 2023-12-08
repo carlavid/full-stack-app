@@ -1,5 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import ErrorsDisplay from "./ErrorsDisplay";
 import UserContext from "../context/UserContext";
 
 const UserSignUp = () => {
@@ -37,7 +39,6 @@ const UserSignUp = () => {
         "http://localhost:5000/api/users",
         fetchOptions
       );
-      console.log(response);
       if (response.status === 201) {
         console.log(
           `${user.emailAddress} is successfully signed up and authenticated!`
@@ -64,16 +65,7 @@ const UserSignUp = () => {
   return (
     <div className="form--centered">
       <h2>Sign Up</h2>
-      {errors.length ? (
-        <div className="validation--errors">
-          <h3>Validation Errors</h3>
-          <ul>
-            {errors.map((error, i) => (
-              <li key={i}>{error}</li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+      <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         <label htmlFor="firstName">First Name</label>
         <input id="firstName" name="firstName" type="text" ref={firstName} />

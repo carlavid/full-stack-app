@@ -27,7 +27,7 @@ const CourseDetail = () => {
             <a className="button" href={`${course.id}/update`}>
               Update Course
             </a>
-            <a className="button" href="/">
+            <a className="button" href={`${course.id}/delete`}>
               Delete Course
             </a>
             <a className="button button-secondary" href="/">
