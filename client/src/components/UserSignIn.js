@@ -15,6 +15,10 @@ const UserSignIn = () => {
   // Event handlers
   const handleSubmit = async (event) => {
     event.preventDefault();
+    let from = "/";
+    if (location.state) {
+      from = location.state.from;
+    }
 
     const credentials = {
       emailAddress: emailAddress.current.value,
@@ -24,7 +28,7 @@ const UserSignIn = () => {
     try {
       const user = await actions.signIn(credentials);
       if (user) {
-        navigate("/courses");
+        navigate(from);
       } else {
         setErrors(["Sign-in was unsuccesful"]);
       }

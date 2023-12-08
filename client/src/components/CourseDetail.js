@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 
 const CourseDetail = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const CourseDetail = () => {
       }
     };
     fetchCourse();
-  }, [id]);
+  }, [course, id]);
 
   if (course) {
     return (
@@ -46,14 +47,16 @@ const CourseDetail = () => {
                     By {course.User.firstName} {course.User.lastName}
                   </p>
                 )}
-                <p>{course.description}</p>
+                <p>
+                  <ReactMarkdown>{course.description}</ReactMarkdown>
+                </p>
               </div>
               <div>
                 <h3 className="course--detail--title">Estimated Time</h3>
                 <p>{course.estimatedTime}</p>
                 <h3 className="course--detail--title">Materials Needed</h3>
                 <ul className="course--detail--list">
-                  {course.materialsNeeded}
+                  <ReactMarkdown>{course.materialsNeeded}</ReactMarkdown>
                 </ul>
               </div>
             </div>
