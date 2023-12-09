@@ -30,9 +30,14 @@ const CourseDetail = () => {
   const handleDelete = async (event) => {
     event.preventDefault();
 
-    // if (!authUser || authUser.id === course.userId) {
-    //   navigate("/signin");
-    // }
+    if (!authUser) {
+      navigate("/signin");
+      return;
+    }
+    if (authUser && authUser.id !== course.userId) {
+      navigate("/forbidden");
+      return;
+    }
 
     const encodedCredentials = btoa(
       `${authUser.emailAddress}:${authUser.password}`
@@ -77,7 +82,11 @@ const CourseDetail = () => {
             <a className="button" href={`${course.id}/update`}>
               Update Course
             </a>
-            <a className="button" href="/" onClick={handleDelete}>
+            <a
+              className="button"
+              href={`${course.id}/update`}
+              onClick={handleDelete}
+            >
               Delete Course
             </a>
             <a className="button button-secondary" href="/">
