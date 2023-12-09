@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 
 const CourseDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [course, setCourse] = useState({});
 
@@ -14,10 +15,11 @@ const CourseDetail = () => {
         setCourse(data);
       } catch (error) {
         console.error("Error fetching course:", course);
+        navigate("/error");
       }
     };
     fetchCourse();
-  }, [course, id]);
+  }, [course, id, navigate]);
 
   if (course) {
     return (
@@ -65,7 +67,7 @@ const CourseDetail = () => {
       </>
     );
   }
-  return null;
+  navigate("/notfound");
 };
 
 export default CourseDetail;
