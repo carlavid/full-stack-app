@@ -39,7 +39,7 @@ const UpdateCourse = () => {
       }
     };
     fetchCourse();
-  }, [course, id, navigate]);
+  }, [id, navigate]);
 
   // event handlers
   const handleSubmit = async (event) => {
@@ -64,8 +64,6 @@ const UpdateCourse = () => {
           `http://localhost:5000/api/courses/${id}`,
           fetchOptions
         );
-        const updatedData = await response.json();
-        setUpdatedCourse(updatedData);
         if (response.status === 204) {
           console.log(`${course.title} was successfully updated!`);
           navigate(`/courses/${id}`);
@@ -99,7 +97,7 @@ const UpdateCourse = () => {
               id="courseTitle"
               name="courseTitle"
               type="text"
-              value={course.title}
+              value={updatedCourse.title}
               onChange={(e) =>
                 setUpdatedCourse({ ...updatedCourse, title: e.target.value })
               }
@@ -114,7 +112,7 @@ const UpdateCourse = () => {
               id="courseDescription"
               name="courseDescription"
               type="text"
-              value={course.description}
+              value={updatedCourse.description}
               onChange={(e) =>
                 setUpdatedCourse({
                   ...updatedCourse,
@@ -129,16 +127,25 @@ const UpdateCourse = () => {
               id="estimatedTime"
               name="estimatedTime"
               type="text"
-              value={course.estimatedTime}
-              // onChange={(e) => setCourse.estimatedTime(e.target.value)}
+              value={updatedCourse.estimatedTime}
+              onChange={(e) =>
+                setUpdatedCourse({
+                  ...updatedCourse,
+                  estimatedTime: e.target.value,
+                })
+              }
             />
             <label htmlFor="materialsNeeded">Materials Needed</label>
             <textarea
               id="materialsNeeded"
               name="materialsNeeded"
-              type="text"
-              value={course.materialsNeeded}
-              // onChange={(e) => setCourse(course.materialsNeeded) = (e.target.value)}
+              value={updatedCourse.materialsNeeded}
+              onChange={(e) =>
+                setUpdatedCourse({
+                  ...updatedCourse,
+                  materialsNeeded: e.target.value,
+                })
+              }
             />
           </div>
         </div>
