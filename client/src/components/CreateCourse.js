@@ -27,28 +27,35 @@ const CreateCourse = () => {
       userId: authUser.id,
     };
 
+    const encodedCredentials = btoa(
+      `${authUser.emailAddress}:${authUser.password}`
+    );
+
     const fetchOptions = {
       method: "POST",
       headers: {
+        Authorization: `Basic ${encodedCredentials}`,
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify(course),
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/courses",
-        fetchOptions
-      );
-      console.log(response);
-      if (response.status === 201) {
-        console.log(`${course.title} was successfully created!`);
-        navigate("/");
-      } else if (response.status === 400) {
-        const data = await response.json();
-        setErrors(data.errors);
-      } else {
-        throw new Error();
+      if (authUser) {
+        const response = await fetch(
+          "http://localhost:5000/api/courses",
+          fetchOptions
+        );
+        console.log(response);
+        if (response.status === 201) {
+          console.log(`${course.title} was successfully created!`);
+          navigate("/");
+        } else if (response.status === 400) {
+          const data = await response.json();
+          setErrors(data.errors);
+        } else {
+          throw new Error();
+        }
       }
     } catch (error) {
       console.log(error);
