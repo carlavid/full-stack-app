@@ -30,15 +30,6 @@ const CourseDetail = () => {
   const handleDelete = async (event) => {
     event.preventDefault();
 
-    if (!authUser) {
-      navigate("/signin");
-      return;
-    }
-    if (authUser && authUser.id !== course.userId) {
-      navigate("/forbidden");
-      return;
-    }
-
     const encodedCredentials = btoa(
       `${authUser.emailAddress}:${authUser.password}`
     );
@@ -52,21 +43,19 @@ const CourseDetail = () => {
     };
 
     try {
-      if (authUser && authUser.id === course.userId) {
-        const response = await fetch(
-          `http://localhost:5000/api/courses/${id}`,
-          fetchOptions
-        );
-        if (response.status === 204) {
-          console.log(`${course.title} was successfully deleted!`);
-          navigate("/");
-        } else if (response.status === 403) {
-          navigate("/forbidden");
-        } else if (response.status === 400) {
-          navigate("/error");
-        } else {
-          throw new Error();
-        }
+      const response = await fetch(
+        `http://localhost:5000/api/courses/${id}`,
+        fetchOptions
+      );
+      if (response.status === 204) {
+        console.log(`${course.title} was successfully deleted!`);
+        navigate("/");
+      } else if (response.status === 403) {
+        navigate("/forbidden");
+      } else if (response.status === 400) {
+        navigate("/error");
+      } else {
+        throw new Error();
       }
     } catch (error) {
       console.error(error);
@@ -79,16 +68,20 @@ const CourseDetail = () => {
       <>
         <div className="actions--bar">
           <div className="wrap">
-            <a className="button" href={`${course.id}/update`}>
-              Update Course
-            </a>
-            <a
-              className="button"
-              href={`${course.id}/update`}
-              onClick={handleDelete}
-            >
-              Delete Course
-            </a>
+            {authUser && authUser.id === course.userId ? (
+              <>
+                <a className="button" href={`${course.id}/update`}>
+                  Update Course
+                </a>
+                <a
+                  className="button"
+                  href={`${course.id}`}
+                  onClick={handleDelete}
+                >
+                  Delete Course
+                </a>
+              </>
+            ) : null}
             <a className="button button-secondary" href="/">
               Return to List
             </a>
