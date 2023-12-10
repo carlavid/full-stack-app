@@ -19,7 +19,7 @@ const CourseDetail = () => {
         const data = await response.json();
         setCourse(data);
       } catch (error) {
-        console.error("Error fetching course:", course);
+        console.error("Error fetching course");
         navigate("/error");
       }
     };
@@ -99,9 +99,7 @@ const CourseDetail = () => {
                     By {course.User.firstName} {course.User.lastName}
                   </p>
                 )}
-                <p>
-                  <ReactMarkdown>{course.description}</ReactMarkdown>
-                </p>
+                <ReactMarkdown>{course.description}</ReactMarkdown>
               </div>
               <div>
                 <h3 className="course--detail--title">Estimated Time</h3>
