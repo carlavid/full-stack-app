@@ -15,7 +15,7 @@ import UnhandledError from "./components/UnhandledError";
 
 function App() {
   return (
-    <div id="root">
+    <div>
       <Header />
       <Routes>
         <Route path="/" element={<Courses />} />

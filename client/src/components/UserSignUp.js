@@ -34,6 +34,7 @@ const UserSignUp = () => {
       body: JSON.stringify(user),
     };
 
+    // Send POST request
     try {
       const response = await fetch(
         "http://localhost:5000/api/users",

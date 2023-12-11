@@ -5,6 +5,7 @@ const Courses = () => {
   const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
 
+  // Fetch courses
   useEffect(() => {
     const fetchCourses = async () => {
       try {

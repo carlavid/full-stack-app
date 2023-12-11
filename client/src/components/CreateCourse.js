@@ -40,6 +40,7 @@ const CreateCourse = () => {
       body: JSON.stringify(course),
     };
 
+    // Send POST request
     try {
       if (authUser) {
         const response = await fetch(
