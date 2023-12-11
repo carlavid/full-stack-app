@@ -35,7 +35,7 @@ const UserSignIn = () => {
       // if user exists, navigate to previous route
       if (user) {
         navigate(from);
-        // if user doesn't exist, update error state
+        // if user doesn't exist, update error state to display error message
       } else {
         setErrors(["Sign-in was unsuccesful"]);
       }
