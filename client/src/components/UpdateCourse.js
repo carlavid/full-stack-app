@@ -22,8 +22,10 @@ const UpdateCourse = () => {
     userId: authUser.id,
   });
 
+  // If course doesn't exist, navigate to notfound route
   if (!course) {
     navigate("/notfound");
+    // otherwise if auth user is not course owner, navigate to forbidden route
   } else if (authUser.id !== course.userId) {
     navigate("/forbidden");
   }
@@ -54,6 +56,7 @@ const UpdateCourse = () => {
       navigate("/notfound");
     }
 
+    // use btoa method to encode user credentials
     const encodedCredentials = btoa(
       `${authUser.emailAddress}:${authUser.password}`
     );
@@ -74,9 +77,11 @@ const UpdateCourse = () => {
           `http://localhost:5000/api/courses/${id}`,
           fetchOptions
         );
+        // If successfully updated, navigate to course detail page
         if (response.status === 204) {
           console.log(`${course.title} was successfully updated!`);
           navigate(`/courses/${id}`);
+          // Set errors for missing title and/or description
         } else if (response.status === 400) {
           const data = await response.json();
           setErrors(data.errors);

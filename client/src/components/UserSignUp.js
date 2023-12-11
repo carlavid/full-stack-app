@@ -19,6 +19,7 @@ const UserSignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Store current values in user object
     const user = {
       firstName: firstName.current.value,
       lastName: lastName.current.value,
@@ -40,12 +41,14 @@ const UserSignUp = () => {
         "http://localhost:5000/api/users",
         fetchOptions
       );
+      // If successfully signed up, sign in user & navigate to home route
       if (response.status === 201) {
         console.log(
           `${user.emailAddress} is successfully signed up and authenticated!`
         );
         await actions.signIn(user);
         navigate("/");
+        // Set errors for missing/invalid user info
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);

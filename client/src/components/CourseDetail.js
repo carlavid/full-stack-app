@@ -12,7 +12,7 @@ const CourseDetail = () => {
   // state
   const [course, setCourse] = useState({});
 
-  // Fetch course info
+  // Fetch course info 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -31,6 +31,7 @@ const CourseDetail = () => {
   const handleDelete = async (event) => {
     event.preventDefault();
 
+    // use btoa method to encode user credentials
     const encodedCredentials = btoa(
       `${authUser.emailAddress}:${authUser.password}`
     );
@@ -49,9 +50,11 @@ const CourseDetail = () => {
         `http://localhost:5000/api/courses/${id}`,
         fetchOptions
       );
+      // If successfully deleted, navigate back to home route
       if (response.status === 204) {
         console.log(`${course.title} was successfully deleted!`);
         navigate("/");
+        // If unauthorized, navigate to forbidden route
       } else if (response.status === 403) {
         navigate("/forbidden");
       } else {

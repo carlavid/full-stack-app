@@ -19,6 +19,7 @@ const CreateCourse = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // new course object
     const course = {
       title: title.current.value,
       description: description.current.value,
@@ -27,6 +28,7 @@ const CreateCourse = () => {
       userId: authUser.id,
     };
 
+    // use btoa method to encode user credentials
     const encodedCredentials = btoa(
       `${authUser.emailAddress}:${authUser.password}`
     );
@@ -42,15 +44,18 @@ const CreateCourse = () => {
 
     // Send POST request
     try {
+      // If authorized user, send request
       if (authUser) {
         const response = await fetch(
           "http://localhost:5000/api/courses",
           fetchOptions
         );
         console.log(response);
+        // If course successfully created, navigate back to home route
         if (response.status === 201) {
           console.log(`${course.title} was successfully created!`);
           navigate("/");
+          // Set errors for missing title and/or description
         } else if (response.status === 400) {
           const data = await response.json();
           setErrors(data.errors);

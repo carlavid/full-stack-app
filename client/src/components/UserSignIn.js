@@ -5,6 +5,7 @@ import ErrorsDisplay from "./ErrorsDisplay";
 import UserContext from "../context/UserContext";
 
 const UserSignIn = () => {
+  // get access to signIn function
   const { actions } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,15 +23,19 @@ const UserSignIn = () => {
       from = location.state.from;
     }
 
+    // Store user credentials
     const credentials = {
       emailAddress: emailAddress.current.value,
       password: password.current.value,
     };
 
+    // Sign in user using their credentials
     try {
       const user = await actions.signIn(credentials);
+      // if user exists, navigate to previous route
       if (user) {
         navigate(from);
+        // if user doesn't exist, update error state
       } else {
         setErrors(["Sign-in was unsuccesful"]);
       }
